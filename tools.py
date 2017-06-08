@@ -74,14 +74,24 @@ def topDonors(donationList, start="", end="", num=10):
 
     return listOut2[:num]
 def hashTagVote(donationList, hashTagList="",start="",end=""):
+    donations=donationSlicer(donationList)
     if not hashTagList:
         hashTagList=["#A","#B"]
+    totals=[]
+    for hashTag in hashTagList:
+        temp=0
+        for donation in donations:
+            if hashTag.lower() in donation[4].lower():
+                temp+=donation[3]
+        temp = '${:,.2f}'.format(temp)
+        totals.append(temp)
+    return list(zip(hashTagList,totals))
 
 
 inLoc = "C:\\Users\\tlsha\\Desktop\\donations.csv"
 donations=donationParser(inLoc)
-x = topDonors(donations, start="2015-05-01T22:41:35+00:00", num=100)
-for y in x:
-    print (y)
+print(hashTagVote(donations))
+test ="blahyoblah"
+
 
 
