@@ -86,7 +86,7 @@ def topDonors(donationList, start="", end="", num=10, outLoc=''):
             file.write(line[0]+": "+line[1]+'\n')
     return listOut2[:num]
 def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
-    donations=donationSlicer(donationList)
+    donations=donationSlicer(donationList, start=start, end=end)
     if not hashTagList:
         hashTagList=["#A","#B"]
     totals=[]
@@ -98,6 +98,7 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
         temp = '${:,.2f}'.format(temp)
         totals.append(temp)
     outList= list(zip(hashTagList,totals))
+    outList = sorted(outList, key= lambda x:Decimal(sub(r'[^\d.]', '', x[1])), reverse=True)
     if outLoc:
         file = open(outLoc,'w')
         for line in outList:
@@ -107,7 +108,7 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
 
 
 #Enter arbitrary number of options for voting
-hashtags = ["#OptionA","#OptionB","#OptionC"]
+hashtags = ["#optionA","#optionB","#optionC"]
 #start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
 start = '1/1/14 1pm'
 #end time to begin looking at. Empty defaults to current.
@@ -116,14 +117,11 @@ end = ''
 updateFrequency= 10 #seconds
 cleanupFrequency=100 #times sleep seconds
 
-
-
 flag=cleanupFrequency
+
 while True:
     flag-=1
     try:
-
-
         #Files that OBS will use as a source
         outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
         outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
