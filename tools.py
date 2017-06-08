@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from re import sub
 from decimal import Decimal
 import random, glob, os, time
+import selenium
+
 
 begin = '2017-01-01T001:00:00+00:00'
 def donationParser(inLoc, header=True):
@@ -121,10 +123,10 @@ while True:
         tops = topDonors(donations, start ='1/1/14 1pm', end='', outLoc=outLoc2)
         print(totals)
         print(tops)
-        time.sleep(5)
+        time.sleep(10)
     except:
         print("Things aren't working. Make sure donation thing exists in downloads")
-        time.sleep(5)
+        time.sleep(10)
         continue
 
 
