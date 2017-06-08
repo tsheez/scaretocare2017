@@ -2,7 +2,7 @@ import dateutil.parser
 from datetime import datetime, timedelta
 from re import sub
 from decimal import Decimal
-import random
+import random, glob, os, time
 
 begin = '2017-01-01T001:00:00+00:00'
 def donationParser(inLoc, header=True):
@@ -43,7 +43,7 @@ def donationParser(inLoc, header=True):
     return donations
 def donationSlicer(donationList, start='', end=""):
     if start:
-        start = dateutil.parser.parse(start)
+        start = dateutil.parser.parse(start).astimezone()
     else:
         start = dateutil.parser.parse('2017-01-01T001:00:00+00:00') #beginning of S2C 2017
     if end:
@@ -104,13 +104,27 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
     return outList
 
 
-inLoc = "C:\\Users\\tlsha\\Desktop\\donations.csv"
-outLoc = "C:\\Users\\tlsha\\Dropbox\\s2c\\test.txt"
-donations=donationParser(inLoc)
-totals = hashTagVote(donations, outLoc=outLoc)
+while True:
+    try:
+        inLoc = "C:\\Users\\tlsha\\Desktop\\donations.csv"
+        outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
+        outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
 
+        list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv') # * means all if need specific format then *.csv
+        latest_file = max(list_of_files, key=os.path.getctime)
+        inLoc = latest_file
 
+        hashtags = ["#OptionA","#OptionB","#OptionC"]
 
-print(topDonors(donations, start="2015-01-01T001:00:00+00:00", outLoc=outLoc))
+        donations=donationParser(inLoc)
+        totals = hashTagVote(donations, hashTagList=hashtags,start ='1/1/14 1pm', end='', outLoc=outLoc1)
+        tops = topDonors(donations, start ='1/1/14 1pm', end='', outLoc=outLoc2)
+        print(totals)
+        print(tops)
+        time.sleep(5)
+    except:
+        print("Things aren't working. Make sure donation thing exists in downloads")
+        time.sleep(5)
+        continue
 
 
