@@ -114,7 +114,7 @@ start = '1/1/14 1pm'
 end = ''
 
 updateFrequency= 10 #seconds
-cleanupFrequency=200 #times sleep seconds
+cleanupFrequency=100 #times sleep seconds
 
 
 
@@ -146,8 +146,12 @@ while True:
         continue
     if not flag:
         files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
+        latest = max(list_of_files, key=os.path.getctime)
         for file in files:
-            os.remove(file)
+            if file == latest:
+                continue
+            else:
+                os.remove(file)
         print("Cleaned up Files")
         flag = cleanupFrequency
 
