@@ -55,7 +55,7 @@ def blockWinner(donationList, start="", end=""):
     for donation in donations:
         choiceList+=[donation]*int(donation[3])
     return random.choice(choiceList)
-def topDonors(donationList, start="", end=""):
+def topDonors(donationList, start="", end="", num=10):
     donations=donationSlicer(donationList,start=start, end=end)
     donors={}
     for donation in donations:
@@ -63,7 +63,16 @@ def topDonors(donationList, start="", end=""):
             donors[donation[1]]+=donation[3]
         except:
             donors[donation[1]] = donation[3]
-    return donors
+    #for key in donors.keys():
+        #donors[key]='${:,.2f}'.format(donors[key])
+    listOut = list(donors.items())
+    listOut = sorted(listOut,key=lambda x:x[1], reverse=True)
+    listOut2 = []
+    for key, value in listOut:
+        listOut2.append([key,'${:,.2f}'.format(value)])
+
+
+    return listOut2[:num]
 def hashTagVote(donationList, hashTagList="",start="",end=""):
     if not hashTagList:
         hashTagList=["#A","#B"]
@@ -71,7 +80,8 @@ def hashTagVote(donationList, hashTagList="",start="",end=""):
 
 inLoc = "C:\\Users\\tlsha\\Desktop\\donations.csv"
 donations=donationParser(inLoc)
-print(blockWinner(donations, start="2016-06-10T22:39:37+00:00"))
-print(topDonors(donations, start="2016-06-20T22:41:35+00:00"))
+x = topDonors(donations, start="2015-05-01T22:41:35+00:00", num=100)
+for y in x:
+    print (y)
 
 
