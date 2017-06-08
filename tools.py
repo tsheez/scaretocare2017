@@ -114,8 +114,10 @@ start = '1/1/14 1pm'
 end = ''
 
 updateFrequency= 10 #seconds
-
 cleanupFrequency=200 #times sleep seconds
+
+
+
 flag=cleanupFrequency
 while True:
     flag-=1
