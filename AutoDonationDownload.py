@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+from datetime import datetime
 
 updateFrequency = 300 #seconds
 
@@ -10,7 +11,8 @@ while True:
     try:
         if "My Donations" in driver.title:
             driver.get("https://streamlabs.com/dashboard/donations/export")
-            print('downloaded latest')
+            print('downloaded latest at:')
+            print(datetime.now().astimezone())
             time.sleep(updateFrequency)
         time.sleep(1) #loops while you login and set up
     except:
