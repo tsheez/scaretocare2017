@@ -106,27 +106,48 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
     return outList
 
 
+#Enter arbitrary number of options for voting
+hashtags = ["#OptionA","#OptionB","#OptionC"]
+#start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
+start = '1/1/14 1pm'
+#end time to begin looking at. Empty defaults to current.
+end = ''
+
+updateFrequency= 10 #seconds
+
+cleanupFrequency=200 #times sleep seconds
+flag=cleanupFrequency
 while True:
+    flag-=1
     try:
-        inLoc = "C:\\Users\\tlsha\\Desktop\\donations.csv"
+
+
+        #Files that OBS will use as a source
         outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
         outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
 
-        list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv') # * means all if need specific format then *.csv
+        #Get latest file in download folder
+        list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv')
         latest_file = max(list_of_files, key=os.path.getctime)
         inLoc = latest_file
 
-        hashtags = ["#OptionA","#OptionB","#OptionC"]
-
         donations=donationParser(inLoc)
-        totals = hashTagVote(donations, hashTagList=hashtags,start ='1/1/14 1pm', end='', outLoc=outLoc1)
-        tops = topDonors(donations, start ='1/1/14 1pm', end='', outLoc=outLoc2)
+        totals = hashTagVote(donations, hashTagList=hashtags,start = start, end=end, outLoc=outLoc1)
+        tops = topDonors(donations, start =start, end=end, outLoc=outLoc2)
         print(totals)
         print(tops)
-        time.sleep(10)
+        time.sleep(updateFrequency)
     except:
-        print("Things aren't working. Make sure donation thing exists in downloads")
-        time.sleep(10)
+        print("Things aren't working. Make sure donation thing exists in downloads. Wait for 5 minutes until new CSV is downloaded")
+        time.sleep(updateFrequency)
+        flag = cleanupFrequency
         continue
+    if not flag:
+        files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
+        for file in files:
+            os.remove(file)
+        print("Cleaned up Files")
+        flag = cleanupFrequency
+
 
 
