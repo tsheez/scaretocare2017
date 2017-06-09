@@ -106,52 +106,52 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
 
     return outList
 
+if __name__ == '__main__':
+    #Enter arbitrary number of options for voting
+    hashtags = ["#optionA","#optionB","#optionC"]
+    #start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
+    start = '1/1/14 1pm'
+    #end time to begin looking at. Empty defaults to current.
+    end = '1/1/20 1pm'
 
-#Enter arbitrary number of options for voting
-hashtags = ["#optionA","#optionB","#optionC"]
-#start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
-start = '1/1/14 1pm'
-#end time to begin looking at. Empty defaults to current.
-end = ''
+    updateFrequency= 10 #seconds
+    cleanupFrequency=100 #times sleep seconds
 
-updateFrequency= 10 #seconds
-cleanupFrequency=100 #times sleep seconds
+    flag=cleanupFrequency
 
-flag=cleanupFrequency
+    while True:
+        flag-=1
+        try:
+            #Files that OBS will use as a source
+            outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
+            outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
 
-while True:
-    flag-=1
-    try:
-        #Files that OBS will use as a source
-        outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
-        outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
+            #Get latest file in download folder
+            list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv')
+            latest_file = max(list_of_files, key=os.path.getctime)
+            inLoc = latest_file
 
-        #Get latest file in download folder
-        list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv')
-        latest_file = max(list_of_files, key=os.path.getctime)
-        inLoc = latest_file
-
-        donations=donationParser(inLoc)
-        totals = hashTagVote(donations, hashTagList=hashtags,start = start, end=end, outLoc=outLoc1)
-        tops = topDonors(donations, start =start, end=end, outLoc=outLoc2)
-        print(totals)
-        print(tops)
-        time.sleep(updateFrequency)
-    except:
-        print("Things aren't working. Make sure donation thing exists in downloads. Wait for 5 minutes until new CSV is downloaded")
-        time.sleep(updateFrequency)
-        flag = cleanupFrequency
-        continue
-    if not flag:
-        files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
-        latest = max(list_of_files, key=os.path.getctime)
-        for file in files:
-            if file == latest:
-                continue
-            else:
-                os.remove(file)
-        print("Cleaned up Files")
-        flag = cleanupFrequency
+            donations=donationParser(inLoc)
+            totals = hashTagVote(donations, hashTagList=hashtags,start = start, end=end, outLoc=outLoc1)
+            tops = topDonors(donations, start =start, end=end, outLoc=outLoc2)
+            print(totals)
+            print(tops)
+            time.sleep(updateFrequency)
+        except:
+            print("Things aren't working. Make sure donation thing exists in downloads. Wait for 5 minutes until new CSV is downloaded")
+            time.sleep(updateFrequency)
+            flag = cleanupFrequency
+            continue
+        if not flag:
+            files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
+            latest = max(list_of_files, key=os.path.getctime)
+            for file in files:
+                if file == latest:
+                    continue
+                else:
+                    os.remove(file)
+            print("Cleaned up Files")
+            flag = cleanupFrequency
 
 
 
