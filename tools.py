@@ -84,6 +84,7 @@ def topDonors(donationList, start="", end="", num=10, outLoc=''):
         file = open(outLoc,'w')
         for line in listOut2[:num]:
             file.write(line[0]+": "+line[1]+'\n')
+        file.close()
     return listOut2[:num]
 def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
     donations=donationSlicer(donationList, start=start, end=end)
@@ -103,19 +104,20 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
         file = open(outLoc,'w')
         for line in outList:
             file.write(line[0]+": "+line[1]+'\n')
+        file.close()
 
     return outList
 
 if __name__ == '__main__':
     #Enter arbitrary number of options for voting
-    hashtags = ["#optionA","#optionB","#optionC"]
+    hashtags = []
     #start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
-    start = '1/1/14 1pm'
+    start = ''
     #end time to begin looking at. Empty defaults to current.
     end = '1/1/20 1pm'
 
-    updateFrequency= 10 #seconds
-    cleanupFrequency=100 #times sleep seconds
+    updateFrequency= 30 #seconds
+    cleanupFrequency=20 #times sleep seconds
 
     flag=cleanupFrequency
 
@@ -130,6 +132,14 @@ if __name__ == '__main__':
             list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv')
             latest_file = max(list_of_files, key=os.path.getctime)
             inLoc = latest_file
+
+            #read hashtags in
+            hashLoc = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashtags.txt"""
+            file = open(hashLoc,'r')
+            for line in file:
+                hashtags.append(line.rstrip())
+            file.close()
+
 
             donations=donationParser(inLoc)
             totals = hashTagVote(donations, hashTagList=hashtags,start = start, end=end, outLoc=outLoc1)
