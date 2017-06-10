@@ -118,7 +118,7 @@ if __name__ == '__main__':
     end = '1/1/20 1pm'
 
     updateFrequency= 10 #seconds
-    cleanupFrequency=5 #times sleep seconds
+    cleanupFrequency=2 #times sleep seconds
 
     flag=cleanupFrequency
 

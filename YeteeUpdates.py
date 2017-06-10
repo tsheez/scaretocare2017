@@ -4,7 +4,7 @@ from re import sub
 from decimal import Decimal
 import time
 
-updateFreq = 10 #seconds
+updateFreq = 5 #seconds
 if __name__ == '__main__':
     while True:
         try:
@@ -34,6 +34,7 @@ if __name__ == '__main__':
             currentTotal = Decimal(sub(r'[^\d.]', '', open("C:\\Users\\tlsha\\Dropbox\\twitchalerts\\30day_donation_amount.txt").read().rstrip()))
             currentTotal+=extraMoney
             currentTotal+= yeteeTotal
+            currentTotal+= 10000
             file = open(outLoc, 'w')
             file.write('${:,.2f}'.format(currentTotal))
             file.close()
