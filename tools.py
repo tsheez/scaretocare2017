@@ -82,48 +82,52 @@ def topDonors(donationList, start="", end="", num=10, outLoc=''):
         listOut2.append([key,'${:,.2f}'.format(value)])
     if outLoc:
         file = open(outLoc,'w')
+        rank = 0
+        file.write("Top Donors This Block:\n")
         for line in listOut2[:num]:
-            file.write(line[0]+": "+line[1]+'\n')
+            rank+=1
+            file.write(str(rank)+". " +line[0]+": "+line[1]+'\n')
         file.close()
     return listOut2[:num]
 def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
     donations=donationSlicer(donationList, start=start, end=end)
-    if not hashTagList:
-        hashTagList=["#A","#B"]
     totals=[]
-    for hashTag in hashTagList:
+    for hashTag in hashTagList[1:]:
         temp=0
         for donation in donations:
             if hashTag.lower() in donation[4].lower():
                 temp+=donation[3]
         temp = '${:,.2f}'.format(temp)
         totals.append(temp)
-    outList= list(zip(hashTagList,totals))
-    outList = sorted(outList, key= lambda x:Decimal(sub(r'[^\d.]', '', x[1])), reverse=True)
+    outList= list(zip(hashTagList[1:],totals))
+    #outList = sorted(outList, key= lambda x:Decimal(sub(r'[^\d.]', '', x[1])), reverse=True)
     if outLoc:
         file = open(outLoc,'w')
+        file.write(hashTagList[0]+" | ")
         for line in outList:
-            file.write(line[0]+": "+line[1]+'\n')
+            file.write(line[0]+": "+line[1]+' | ')
         file.close()
 
     return outList
 
 if __name__ == '__main__':
-    #Enter arbitrary number of options for voting
-    hashtags = []
+
     #start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
-    start = ''
+    start = '6/9/17 6pm'
     #end time to begin looking at. Empty defaults to current.
     end = '1/1/20 1pm'
 
-    updateFrequency= 30 #seconds
-    cleanupFrequency=20 #times sleep seconds
+    updateFrequency= 10 #seconds
+    cleanupFrequency=5 #times sleep seconds
 
     flag=cleanupFrequency
 
     while True:
         flag-=1
         try:
+            # Enter arbitrary number of options for voting
+            hashtags = []
+
             #Files that OBS will use as a source
             outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
             outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
@@ -152,15 +156,19 @@ if __name__ == '__main__':
             time.sleep(updateFrequency)
             flag = cleanupFrequency
             continue
-        if not flag:
-            files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
-            latest = max(list_of_files, key=os.path.getctime)
-            for file in files:
-                if file == latest:
-                    continue
-                else:
-                    os.remove(file)
-            print("Cleaned up Files")
+        try:
+            if not flag:
+                files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
+                latest = max(list_of_files, key=os.path.getctime)
+                for file in files:
+                    if file == latest:
+                        continue
+                    else:
+                        os.remove(file)
+                print("Cleaned up Files")
+                flag = cleanupFrequency
+        except:
+            print('Something fucked up')
             flag = cleanupFrequency
 
 

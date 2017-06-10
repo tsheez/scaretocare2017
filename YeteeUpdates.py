@@ -4,7 +4,7 @@ from re import sub
 from decimal import Decimal
 import time
 
-updateFreq = 30 #seconds
+updateFreq = 10 #seconds
 if __name__ == '__main__':
     while True:
         try:
@@ -39,13 +39,15 @@ if __name__ == '__main__':
             file.close()
 
             file = open(outLoc2, 'w')
-            file.write("Shirts Sold: "+str(int(list[0]+list[1]))+"\n")
-            file.write("Pins Sold: " + str(int(list[2])))
+            file.write("Shirts: "+str(int(list[0]+list[1]))+"\n")
+            file.write("Pins: " + str(int(list[2]))+"\n")
+            file.write("Campers: " + str('{:,.3f}'.format(currentTotal/300)))
             file.close()
 
             file=open(outLoc4,'w')
             file.write(str(int(currentTotal/300)))
             file.close()
+            print(currentTotal)
 
 
             time.sleep(updateFreq)
