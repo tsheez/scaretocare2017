@@ -83,7 +83,7 @@ def topDonors(donationList, start="", end="", num=10, outLoc=''):
     if outLoc:
         file = open(outLoc,'w')
         rank = 0
-        file.write("Top Donors This Block:\n")
+        file.write("Top Donors:\n")
         for line in listOut2[:num]:
             rank+=1
             file.write(str(rank)+". " +line[0]+": "+line[1]+'\n')
@@ -113,17 +113,14 @@ def hashTagVote(donationList, hashTagList="",start="",end="", outLoc=''):
 if __name__ == '__main__':
 
     #start time to begin looking at. Use 1/1/17 5pm format. Empty defaults to beginning of s2c 2017
-    start = '6/9/17 6pm'
+    start = '6/10/17 4:25pm'
     #end time to begin looking at. Empty defaults to current.
-    end = '1/1/20 1pm'
+    end = '1/1/20 5pm'
 
     updateFrequency= 10 #seconds
-    cleanupFrequency=2 #times sleep seconds
 
-    flag=cleanupFrequency
 
     while True:
-        flag-=1
         try:
             # Enter arbitrary number of options for voting
             hashtags = []
@@ -146,7 +143,7 @@ if __name__ == '__main__':
 
 
             donations=donationParser(inLoc)
-            totals = hashTagVote(donations, hashTagList=hashtags,start = start, end=end, outLoc=outLoc1)
+            totals = hashTagVote(donations, hashTagList=hashtags,start = '', end='', outLoc=outLoc1)
             tops = topDonors(donations, start =start, end=end, outLoc=outLoc2)
             print(totals)
             print(tops)
@@ -154,22 +151,8 @@ if __name__ == '__main__':
         except:
             print("Things aren't working. Make sure donation thing exists in downloads. Wait for 5 minutes until new CSV is downloaded")
             time.sleep(updateFrequency)
-            flag = cleanupFrequency
             continue
-        try:
-            if not flag:
-                files = glob.glob('C:\\Users\\tlsha\\Downloads\\donations*')
-                latest = max(list_of_files, key=os.path.getctime)
-                for file in files:
-                    if file == latest:
-                        continue
-                    else:
-                        os.remove(file)
-                print("Cleaned up Files")
-                flag = cleanupFrequency
-        except:
-            print('Something fucked up')
-            flag = cleanupFrequency
+
 
 
 
