@@ -129,16 +129,16 @@ if __name__ == '__main__':
             hashtags = []
 
             #Files that OBS will use as a source
-            outLoc1 = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashvote.txt"
-            outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\blockdonors.txt"
+            outLoc1 = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\hashvote.txt"
+            outLoc2 = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\blockdonors.txt"
 
             #Get latest file in download folder
-            list_of_files = glob.glob('C:\\Users\\tlsha\\Downloads\\*.csv')
+            list_of_files = glob.glob('C:\\Users\\KastreamAbdulJabbar\\Downloads\\*.csv')
             latest_file = max(list_of_files, key=os.path.getctime)
             inLoc = latest_file
 
             #read hashtags in
-            hashLoc = "C:\\Users\\tlsha\\Dropbox\\s2c\\hashtags.txt"""
+            hashLoc = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\hashtags.txt"""
             file = open(hashLoc,'r')
             for line in file:
                 hashtags.append(line.rstrip())

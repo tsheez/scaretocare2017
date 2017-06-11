@@ -3,10 +3,11 @@ from selenium.webdriver.common.keys import Keys
 import time
 from datetime import datetime
 
+
 if __name__ == '__main__':
     updateFrequency = 15 #seconds
 
-    driver = webdriver.Chrome(executable_path="C:\\Program Files\\ChromeDriver\\chromedriver.exe")
+    driver = webdriver.Chrome(executable_path="C:\\Users\\KastreamAbdulJabbar\\Desktop\\chromedriver.exe")
     driver.get("https://streamlabs.com/dashboard/#")
     while True:
         try:

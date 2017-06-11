@@ -25,13 +25,13 @@ if __name__ == '__main__':
             yeteeTotal = list[0]*3 +list[1]*3+list[2]*4
             print(yeteeTotal)
 
-            outLoc = "C:\\Users\\tlsha\\Dropbox\\s2c\\realtotal.txt"
-            outLoc2 = "C:\\Users\\tlsha\\Dropbox\\s2c\\shirts.txt"
-            outLoc3 = "C:\\Users\\tlsha\\Dropbox\\s2c\\pins.txt"
-            outLoc4 = "C:\\Users\\tlsha\\Dropbox\\s2c\\kidstocamp.txt"
+            outLoc = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\realtotal.txt"
+            outLoc2 = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\shirts.txt"
+            outLoc3 = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\pins.txt"
+            outLoc4 = "C:\\Users\\KastreamAbdulJabbar\\Dropbox\\s2c\\kidstocamp.txt"
 
             extraMoney = 3
-            currentTotal = Decimal(sub(r'[^\d.]', '', open("C:\\Users\\tlsha\\Dropbox\\twitchalerts\\30day_donation_amount.txt").read().rstrip()))
+            currentTotal = Decimal(sub(r'[^\d.]', '', open("C:\\Users\\KastreamAbdulJabbar\\Dropbox\\twitchalerts\\30day_donation_amount.txt").read().rstrip()))
             currentTotal+=extraMoney
             currentTotal+= yeteeTotal
             currentTotal+= 10000
